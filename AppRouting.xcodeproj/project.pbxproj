@@ -399,6 +399,7 @@
 				8A021EE51B635DA3008DD1C5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8A021EE61B635DA3008DD1C5 /* Build configuration list for PBXNativeTarget "AppRoutingTests" */ = {
 			isa = XCConfigurationList;
@@ -407,6 +408,7 @@
 				8A021EE81B635DA3008DD1C5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

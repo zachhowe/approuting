@@ -7,9 +7,9 @@
 
 import Foundation
 
-public enum AppParameterType {
+public enum AppRoutingParameter {
     case Number(Int)
     case Text(String)
 }
 
-public typealias AppRoutingParameters = [String: AppParameterType]
+public typealias AppRoutingParameters = [String: AppRoutingParameter]

@@ -46,7 +46,7 @@ public class AppRouterRoute: AppRoute {
     
     public func paramsForURL(URL: NSURL) -> AppRoutingParameters {
         let absoluteString = URL.absoluteString
-        var matchedValues = [String: AppParameterType]()
+        var matchedValues = AppRoutingParameters()
         
         regex?.enumerateMatchesInString(absoluteString,
             options: NSMatchingOptions(rawValue: 0),
@@ -66,9 +66,9 @@ public class AppRouterRoute: AppRoute {
                                 
                                 // TODO: let route pattern determine type
                                 if let intVal = Int(strVal) {
-                                    matchedValues[key] = AppParameterType.Number(intVal)
+                                    matchedValues[key] = AppRoutingParameter.Number(intVal)
                                 } else {
-                                    matchedValues[key] = AppParameterType.Text(strVal)
+                                    matchedValues[key] = AppRoutingParameter.Text(strVal)
                                 }
                             }
                         }
@@ -89,7 +89,7 @@ private func regularExpressionFromURLPattern(pattern: String) throws -> (NSRegul
     patternScanner.charactersToBeSkipped = nil
     
     var regexPattern = ""
-    var regexGroupKeyNames = [String]()
+    var regexGroupKeyNames: [String] = []
     
     var scannedString: NSString?
     while (!patternScanner.atEnd) {

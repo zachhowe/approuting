@@ -8,29 +8,30 @@
 import Foundation
 
 public class AppRouter {
-    private enum RouteMap {
-        case Map(AppRoute, AppAction)
+    private struct RouteMapping {
+        var route: AppRoute
+        var action: AppAction
     }
-    private var routes: [RouteMap]
+    private var routeMappings: [RouteMapping]
     
     public init() {
-        routes = [RouteMap]()
+        routeMappings = [RouteMapping]()
     }
     
     public func openURL(URL: NSURL) -> Bool {
-        for route in routes {
-            switch route {
-            case let .Map(route, action):
-                if route.matchesOnURL(URL) {
-                    action.perform(route.paramsForURL(URL))
-                    return true
-                }
+        for routeMapping in routeMappings {
+            let route = routeMapping.route
+            let action = routeMapping.action
+            
+            if route.matchesOnURL(URL) {
+                action.perform(route.paramsForURL(URL))
+                return true
             }
         }
         return false
     }
     
     public func matchOn(route: AppRoute, action: AppAction) {
-        routes.append(RouteMap.Map(route, action))
+        routeMappings.append(RouteMapping(route: route, action: action))
     }
 }
