@@ -9,14 +9,10 @@ import Foundation
 
 public class AppRouter {
     private struct RouteMapping {
-        var route: AppRoute
-        var action: AppAction
+        let route: AppRoute
+        let action: AppAction
     }
-    private var routeMappings: [RouteMapping]
-    
-    public init() {
-        routeMappings = [RouteMapping]()
-    }
+    private var routeMappings = [RouteMapping]()
     
     public func openURL(URL: NSURL) -> Bool {
         for routeMapping in routeMappings {
