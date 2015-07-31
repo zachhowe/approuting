@@ -15,5 +15,3 @@ FOUNDATION_EXPORT double AppRoutingVersionNumber;
 FOUNDATION_EXPORT const unsigned char AppRoutingVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <AppRouting/PublicHeader.h>
-
-
