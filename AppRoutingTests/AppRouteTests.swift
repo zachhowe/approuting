@@ -26,7 +26,7 @@ class AppRouteTests: XCTestCase {
         let route1 = AppRouterRoute(routePattern: "/burrito/:burrito_id:")
         XCTAssert(route1.error == nil)
         XCTAssertEqual(route1.paramKeys!, ["burrito_id"])
-        XCTAssertEqual(route1.regex!.pattern, "/burrito/([^/]*)$")
+        XCTAssertEqual(route1.regex!.pattern, "/burrito/([^/]*)/?$")
         XCTAssertTrue(route1.matchesOnURL(url1))
         XCTAssertFalse(route1.matchesOnURL(url2))
         
@@ -51,7 +51,7 @@ class AppRouteTests: XCTestCase {
         let route2 = AppRouterRoute(routePattern: "/burrito/:burrito_id:/cheese/:cheese_name:/addToCart")
         XCTAssert(route2.error == nil)
         XCTAssertEqual(route2.paramKeys!, ["burrito_id", "cheese_name"])
-        XCTAssertEqual(route2.regex!.pattern, "/burrito/([^/]*)/cheese/([^/]*)/addToCart$")
+        XCTAssertEqual(route2.regex!.pattern, "/burrito/([^/]*)/cheese/([^/]*)/addToCart/?$")
         XCTAssertFalse(route2.matchesOnURL(url1))
         XCTAssertTrue(route2.matchesOnURL(url2))
         

@@ -112,7 +112,7 @@ private func regularExpressionFromURLPattern(pattern: String) throws -> (NSRegul
             }
         }
     }
-    regexPattern += "$"
+    regexPattern += "/?$" // ignore trailing slash
     
     do {
         let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpressionOptions(rawValue: 0))
