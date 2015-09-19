@@ -57,10 +57,13 @@ public class AppRouterRoute: AppRoute {
                     if match.range.location != NSNotFound {
                         var i = 0
                         for ri in 1..<match.numberOfRanges {
-                            let rai = match.rangeAtIndex(ri)
+                            let range = match.rangeAtIndex(ri)
                             if let key = self.paramKeys?[i++] {
-                                let range = Range<String.Index>(start: advance(absoluteString.startIndex, rai.location),
-                                    end: advance(absoluteString.startIndex, rai.location + rai.length))
+                                let range: Range<String.Index> = { (str: String, rng: NSRange) in
+                                    let start = str.startIndex.advancedBy(rng.location)
+                                    let end = start.advancedBy(rng.length)
+                                    return Range<String.Index>(start: start, end: end)
+                                }(absoluteString, range)
                                 
                                 let strVal = absoluteString.substringWithRange(range)
                                 
