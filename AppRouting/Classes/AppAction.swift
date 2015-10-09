@@ -7,18 +7,18 @@
 
 import Foundation
 
-public protocol AppAction {
+public protocol AppActionProtocol {
     func perform(parameters: AppRoutingParameters)
 }
 
-internal class AppRouterAction: AppAction {
+public class AppAction: AppActionProtocol {
     private let action: (AppRoutingParameters) -> Void
     
-    internal init(action: (AppRoutingParameters) -> Void) {
+    init(action: (AppRoutingParameters) -> Void) {
         self.action = action
     }
     
-    internal func perform(parameters: AppRoutingParameters) {
+    public func perform(parameters: AppRoutingParameters) {
         self.action(parameters)
     }
 }

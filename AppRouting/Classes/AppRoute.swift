@@ -12,43 +12,32 @@ public enum AppRouteError: ErrorType {
     case RegularExpressionError(ErrorType)
 }
 
-public protocol AppRoute {
+public protocol AppRouteProtocol {
     func matchesOnURL(URL: NSURL) -> Bool
     func paramsForURL(URL: NSURL) -> AppRoutingParameters
 }
 
-public class AppRouterRoute: AppRoute {
+public class AppRoute: AppRouteProtocol {
     public let routePattern: String
-    let regex: NSRegularExpression?
-    let paramKeys: [String]?
-    let error: ErrorType?
+    private(set) public var regex = NSRegularExpression()
+    private(set) public var paramKeys = [String]()
     
-    public init(routePattern: String) {
-        do {
-            let result = try regularExpressionFromURLPattern(routePattern)
-            self.routePattern = routePattern
-            self.regex = result.0
-            self.paramKeys = result.1
-            self.error = nil
-        } catch let err {
-            self.routePattern = routePattern
-            self.error = err
-            self.regex = nil
-            self.paramKeys = nil
-        }
+    public init(routePattern: String) throws {
+        self.routePattern = routePattern
+        (self.regex, self.paramKeys) = try regularExpressionFromURLPattern(routePattern)
     }
     
     public func matchesOnURL(URL: NSURL) -> Bool {
         let absoluteString = URL.absoluteString
         let range = NSRange(location: 0, length: absoluteString.characters.count)
-        return regex?.numberOfMatchesInString(absoluteString, options: NSMatchingOptions(rawValue: 0), range: range) == 1
+        return regex.numberOfMatchesInString(absoluteString, options: NSMatchingOptions(rawValue: 0), range: range) == 1
     }
     
     public func paramsForURL(URL: NSURL) -> AppRoutingParameters {
         let absoluteString = URL.absoluteString
         var matchedValues = AppRoutingParameters()
         
-        regex?.enumerateMatchesInString(absoluteString,
+        regex.enumerateMatchesInString(absoluteString,
             options: NSMatchingOptions(rawValue: 0),
             range: NSRange(location: 0, length: absoluteString.characters.count),
             usingBlock: { (match, flags, stop) -> Void in
@@ -57,22 +46,21 @@ public class AppRouterRoute: AppRoute {
                     if match.range.location != NSNotFound {
                         var i = 0
                         for ri in 1..<match.numberOfRanges {
-                            let range = match.rangeAtIndex(ri)
-                            if let key = self.paramKeys?[i++] {
-                                let range: Range<String.Index> = { (str: String, rng: NSRange) in
-                                    let start = str.startIndex.advancedBy(rng.location)
-                                    let end = start.advancedBy(rng.length)
-                                    return Range<String.Index>(start: start, end: end)
-                                }(absoluteString, range)
-                                
-                                let strVal = absoluteString.substringWithRange(range)
-                                
-                                // TODO: let route pattern determine type
-                                if let intVal = Int(strVal) {
-                                    matchedValues[key] = AppRoutingParameter.Number(intVal)
-                                } else {
-                                    matchedValues[key] = AppRoutingParameter.Text(strVal)
-                                }
+                            let key = self.paramKeys[i++]
+                            
+                            let range = { (str: String, rng: NSRange) -> Range<String.Index> in
+                                let start = str.startIndex.advancedBy(rng.location)
+                                let end = start.advancedBy(rng.length)
+                                return Range<String.Index>(start: start, end: end)
+                                }(absoluteString, match.rangeAtIndex(ri))
+                            
+                            let strVal = absoluteString.substringWithRange(range)
+                            
+                            // TODO: let route pattern determine type
+                            if let intVal = Int(strVal) {
+                                matchedValues[key] = AppRoutingParameter.Number(intVal)
+                            } else {
+                                matchedValues[key] = AppRoutingParameter.Text(strVal)
                             }
                         }
                     }

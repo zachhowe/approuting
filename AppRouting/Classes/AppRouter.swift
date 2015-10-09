@@ -9,17 +9,17 @@ import Foundation
 
 public class AppRouter {
     private struct RouteMapping {
-        let route: AppRoute
-        let action: AppAction
+        let route: AppRouteProtocol
+        let action: AppActionProtocol
     }
     private var routeMappings = [RouteMapping]()
     private let validSchemes: [String]
     
-    init() {
+    public init() {
         validSchemes = []
     }
     
-    init(schemes: [String]) {
+    public init(schemes: [String]) {
         validSchemes = schemes
     }
     
@@ -41,7 +41,11 @@ public class AppRouter {
         return validSchemes.count == 0 || validSchemes.contains(URL.scheme)
     }
     
-    public func matchOn(route: AppRoute, action: AppAction) {
+    public func matchOn(route: AppRouteProtocol, action: AppActionProtocol) {
         routeMappings.append(RouteMapping(route: route, action: action))
+    }
+    
+    public func matchOn(route: String, action: (AppRoutingParameters) -> Void) throws {
+        self.matchOn(try AppRoute(routePattern: route), action: AppAction(action: action))
     }
 }
