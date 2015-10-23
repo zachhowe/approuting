@@ -14,7 +14,7 @@ public protocol AppActionProtocol {
 public class AppAction: AppActionProtocol {
     private let action: (AppRoutingParameters) -> Void
     
-    init(action: (AppRoutingParameters) -> Void) {
+    public init(action: (AppRoutingParameters) -> Void) {
         self.action = action
     }
     

@@ -15,11 +15,7 @@ public class AppRouter {
     private var routeMappings = [RouteMapping]()
     private let validSchemes: [String]
     
-    public init() {
-        validSchemes = []
-    }
-    
-    public init(schemes: [String]) {
+    public init(schemes: [String] = []) {
         validSchemes = schemes
     }
     
@@ -38,7 +34,7 @@ public class AppRouter {
     }
     
     private func validateURL(URL: NSURL) -> Bool {
-        return validSchemes.count == 0 || validSchemes.contains(URL.scheme)
+        return validSchemes.isEmpty || validSchemes.contains(URL.scheme)
     }
     
     public func matchOn(route: AppRouteProtocol, action: AppActionProtocol) {
