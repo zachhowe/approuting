@@ -71,8 +71,8 @@ public class AppRoute: AppRouteProtocol {
     }
 }
 
-private let RouteDelimterStart = ":"
-private let RouteDelimterEnd = ":"
+private let RouteDelimiterStart = ":"
+private let RouteDelimiterEnd = ":"
 private let RouteRegularExpressionCaptureGroupPattern = "([^/]*)"
 
 private func regularExpressionFromURLPattern(pattern: String) throws -> (NSRegularExpression, [String]) {
@@ -84,19 +84,19 @@ private func regularExpressionFromURLPattern(pattern: String) throws -> (NSRegul
     
     var scannedString: NSString?
     while (!patternScanner.atEnd) {
-        if patternScanner.scanUpToString(RouteDelimterStart, intoString: &scannedString),
+        if patternScanner.scanUpToString(RouteDelimiterStart, intoString: &scannedString),
             let scannedString = scannedString as? String {
                 regexPattern += scannedString
         }
         
-        if patternScanner.scanString(RouteDelimterStart, intoString: nil) {
-            if patternScanner.scanUpToString(RouteDelimterEnd, intoString: &scannedString),
+        if patternScanner.scanString(RouteDelimiterStart, intoString: nil) {
+            if patternScanner.scanUpToString(RouteDelimiterEnd, intoString: &scannedString),
                 let scannedString = scannedString as? String {
                     regexGroupKeyNames.append(scannedString)
                     regexPattern += RouteRegularExpressionCaptureGroupPattern
-                    patternScanner.scanString(RouteDelimterEnd, intoString: nil)
+                    patternScanner.scanString(RouteDelimiterEnd, intoString: nil)
             } else {
-                throw AppRouteError.PatternParseError("Did not find RouteDelimterEnd (\"\(RouteDelimterEnd)\") after RouteDelimterStart (\"\(RouteDelimterStart)\")")
+                throw AppRouteError.PatternParseError("Did not find RouteDelimiterEnd (\"\(RouteDelimiterEnd)\") after RouteDelimiterStart (\"\(RouteDelimiterStart)\")")
             }
         }
     }
