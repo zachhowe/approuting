@@ -9,11 +9,11 @@
 /* Begin PBXBuildFile section */
 		8A021ED31B635DA3008DD1C5 /* AppRouting.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A021ED21B635DA3008DD1C5 /* AppRouting.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8A021EDA1B635DA3008DD1C5 /* AppRouting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A021ECF1B635DA3008DD1C5 /* AppRouting.framework */; };
-		8A021EEE1B635DDB008DD1C5 /* AppAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A021EEA1B635DDB008DD1C5 /* AppAction.swift */; };
-		8A021EEF1B635DDB008DD1C5 /* AppRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A021EEB1B635DDB008DD1C5 /* AppRoute.swift */; };
-		8A021EF01B635DDB008DD1C5 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A021EEC1B635DDB008DD1C5 /* AppRouter.swift */; };
-		8A021EF11B635DDB008DD1C5 /* AppRoutingCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A021EED1B635DDB008DD1C5 /* AppRoutingCommon.swift */; };
-		8A021EF31B635DE8008DD1C5 /* AppRouteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A021EF21B635DE8008DD1C5 /* AppRouteTests.swift */; };
+		8A021EEE1B635DDB008DD1C5 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A021EEA1B635DDB008DD1C5 /* Action.swift */; };
+		8A021EEF1B635DDB008DD1C5 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A021EEB1B635DDB008DD1C5 /* Route.swift */; };
+		8A021EF01B635DDB008DD1C5 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A021EEC1B635DDB008DD1C5 /* Router.swift */; };
+		8A021EF11B635DDB008DD1C5 /* AppRouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A021EED1B635DDB008DD1C5 /* AppRouting.swift */; };
+		8A021EF31B635DE8008DD1C5 /* RouteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A021EF21B635DE8008DD1C5 /* RouteTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,11 +32,11 @@
 		8A021ED41B635DA3008DD1C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8A021ED91B635DA3008DD1C5 /* AppRoutingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppRoutingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A021EE01B635DA3008DD1C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8A021EEA1B635DDB008DD1C5 /* AppAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppAction.swift; sourceTree = "<group>"; };
-		8A021EEB1B635DDB008DD1C5 /* AppRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppRoute.swift; sourceTree = "<group>"; };
-		8A021EEC1B635DDB008DD1C5 /* AppRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
-		8A021EED1B635DDB008DD1C5 /* AppRoutingCommon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppRoutingCommon.swift; sourceTree = "<group>"; };
-		8A021EF21B635DE8008DD1C5 /* AppRouteTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppRouteTests.swift; sourceTree = "<group>"; };
+		8A021EEA1B635DDB008DD1C5 /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Action.swift; path = Classes/Action.swift; sourceTree = "<group>"; };
+		8A021EEB1B635DDB008DD1C5 /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Route.swift; path = Classes/Route.swift; sourceTree = "<group>"; };
+		8A021EEC1B635DDB008DD1C5 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Router.swift; path = Classes/Router.swift; sourceTree = "<group>"; };
+		8A021EED1B635DDB008DD1C5 /* AppRouting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppRouting.swift; path = Classes/AppRouting.swift; sourceTree = "<group>"; };
+		8A021EF21B635DE8008DD1C5 /* RouteTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,7 +80,10 @@
 			isa = PBXGroup;
 			children = (
 				8A021ED21B635DA3008DD1C5 /* AppRouting.h */,
-				8A021EE91B635DDB008DD1C5 /* Classes */,
+				8A021EED1B635DDB008DD1C5 /* AppRouting.swift */,
+				8A021EEC1B635DDB008DD1C5 /* Router.swift */,
+				8A021EEB1B635DDB008DD1C5 /* Route.swift */,
+				8A021EEA1B635DDB008DD1C5 /* Action.swift */,
 				8A021ED41B635DA3008DD1C5 /* Info.plist */,
 			);
 			path = AppRouting;
@@ -89,21 +92,10 @@
 		8A021EDD1B635DA3008DD1C5 /* AppRoutingTests */ = {
 			isa = PBXGroup;
 			children = (
-				8A021EF21B635DE8008DD1C5 /* AppRouteTests.swift */,
+				8A021EF21B635DE8008DD1C5 /* RouteTests.swift */,
 				8A021EE01B635DA3008DD1C5 /* Info.plist */,
 			);
 			path = AppRoutingTests;
-			sourceTree = "<group>";
-		};
-		8A021EE91B635DDB008DD1C5 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				8A021EEA1B635DDB008DD1C5 /* AppAction.swift */,
-				8A021EEB1B635DDB008DD1C5 /* AppRoute.swift */,
-				8A021EEC1B635DDB008DD1C5 /* AppRouter.swift */,
-				8A021EED1B635DDB008DD1C5 /* AppRoutingCommon.swift */,
-			);
-			path = Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,10 +206,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8A021EEE1B635DDB008DD1C5 /* AppAction.swift in Sources */,
-				8A021EEF1B635DDB008DD1C5 /* AppRoute.swift in Sources */,
-				8A021EF01B635DDB008DD1C5 /* AppRouter.swift in Sources */,
-				8A021EF11B635DDB008DD1C5 /* AppRoutingCommon.swift in Sources */,
+				8A021EEE1B635DDB008DD1C5 /* Action.swift in Sources */,
+				8A021EEF1B635DDB008DD1C5 /* Route.swift in Sources */,
+				8A021EF01B635DDB008DD1C5 /* Router.swift in Sources */,
+				8A021EF11B635DDB008DD1C5 /* AppRouting.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,7 +217,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8A021EF31B635DE8008DD1C5 /* AppRouteTests.swift in Sources */,
+				8A021EF31B635DE8008DD1C5 /* RouteTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
