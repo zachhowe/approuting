@@ -7,6 +7,15 @@
 
 import Foundation
 
+public struct RouteParameter {
+  let name: String
+  let value: String
+}
+extension RouteParameter: Equatable {}
+public func ==(lhs: RouteParameter, rhs: RouteParameter) -> Bool {
+  return lhs.name == rhs.name && lhs.value == rhs.value
+}
+
 public enum RouteError: ErrorType {
   case PatternParseError(String)
   case RegularExpressionError(ErrorType)
@@ -14,19 +23,10 @@ public enum RouteError: ErrorType {
 
 public protocol RouteProtocol {
   func matchesOnURL(URL: NSURL) -> Bool
-  func paramsForURL(URL: NSURL) -> RouteParameters
+  func paramsForURL(URL: NSURL) -> [RouteParameter]
 }
 
-private extension NSURL {
-  func pathAndQuery() -> String {
-    if let query = self.query {
-      return (self.path ?? "") + "?" + query
-    }
-    return self.path ?? ""
-  }
-}
-
-public class Route: RouteProtocol {
+public final class Route: RouteProtocol {
   public let pattern: String
   private(set) public var regex = NSRegularExpression()
   private(set) public var paramKeys = [String]()
@@ -37,40 +37,35 @@ public class Route: RouteProtocol {
   }
   
   public func matchesOnURL(URL: NSURL) -> Bool {
-    let absoluteString = URL.pathAndQuery()
-    let range = NSRange(location: 0, length: absoluteString.characters.count)
-    return regex.numberOfMatchesInString(absoluteString, options: NSMatchingOptions(rawValue: 0), range: range) == 1
+    guard let path = URL.path else { return false }
+    let range = NSRange(location: 0, length: path.characters.count)
+    return regex.numberOfMatchesInString(path, options: NSMatchingOptions(rawValue: 0), range: range) == 1
   }
   
-  public func paramsForURL(URL: NSURL) -> RouteParameters {
-    let absoluteString = URL.pathAndQuery()
-    var matchedValues = RouteParameters()
+  public func paramsForURL(URL: NSURL) -> [RouteParameter] {
+    guard let path = URL.path else { return [] }
+    var matchedValues = [RouteParameter]()
     
-    regex.enumerateMatchesInString(absoluteString,
+    regex.enumerateMatchesInString(path,
       options: NSMatchingOptions(rawValue: 0),
-      range: NSRange(location: 0, length: absoluteString.characters.count),
+      range: NSRange(location: 0, length: path.characters.count),
       usingBlock: { (match, flags, stop) -> Void in
         
         if let match = match {
           if match.range.location != NSNotFound {
             var i = 0
             for ri in 1..<match.numberOfRanges {
-              let key = self.paramKeys[i++]
+              let key = self.paramKeys[i]
+              i += 1
               
               let range = { (str: String, rng: NSRange) -> Range<String.Index> in
                 let start = str.startIndex.advancedBy(rng.location)
                 let end = start.advancedBy(rng.length)
-                return Range<String.Index>(start: start, end: end)
-              }(absoluteString, match.rangeAtIndex(ri))
+                return start..<end
+              }(path, match.rangeAtIndex(ri))
               
-              let strVal = absoluteString.substringWithRange(range)
-              
-              // TODO: let route pattern determine type
-              if let intVal = Int(strVal) {
-                matchedValues[key] = RouteParameter.Number(intVal)
-              } else {
-                matchedValues[key] = RouteParameter.Text(strVal)
-              }
+              let strVal = path.substringWithRange(range)
+              matchedValues.append(RouteParameter(name: key, value: strVal))
             }
           }
         }
@@ -111,10 +106,6 @@ private func regularExpressionFromURLPattern(pattern: String) throws -> (NSRegul
   }
   regexPattern += "/?$" // ignore trailing slash
   
-  do {
-    let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpressionOptions(rawValue: 0))
-    return (regex, regexGroupKeyNames)
-  } catch let error {
-    throw RouteError.RegularExpressionError(error)
-  }
+  let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpressionOptions(rawValue: 0))
+  return (regex, regexGroupKeyNames)
 }

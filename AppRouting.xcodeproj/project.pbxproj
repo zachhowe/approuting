@@ -12,8 +12,10 @@
 		8A021EEE1B635DDB008DD1C5 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A021EEA1B635DDB008DD1C5 /* Action.swift */; };
 		8A021EEF1B635DDB008DD1C5 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A021EEB1B635DDB008DD1C5 /* Route.swift */; };
 		8A021EF01B635DDB008DD1C5 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A021EEC1B635DDB008DD1C5 /* Router.swift */; };
-		8A021EF11B635DDB008DD1C5 /* AppRouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A021EED1B635DDB008DD1C5 /* AppRouting.swift */; };
 		8A021EF31B635DE8008DD1C5 /* RouteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A021EF21B635DE8008DD1C5 /* RouteTests.swift */; };
+		8A3F61C41CA5FB7C00C80773 /* RouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3F61C31CA5FB7C00C80773 /* RouterTests.swift */; };
+		8A3F61C71CA5FE5900C80773 /* MockRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3F61C61CA5FE5900C80773 /* MockRoute.swift */; };
+		8A3F61C91CA5FE7F00C80773 /* MockAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3F61C81CA5FE7F00C80773 /* MockAction.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,10 +35,12 @@
 		8A021ED91B635DA3008DD1C5 /* AppRoutingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppRoutingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A021EE01B635DA3008DD1C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8A021EEA1B635DDB008DD1C5 /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Action.swift; path = Classes/Action.swift; sourceTree = "<group>"; };
-		8A021EEB1B635DDB008DD1C5 /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Route.swift; path = Classes/Route.swift; sourceTree = "<group>"; };
+		8A021EEB1B635DDB008DD1C5 /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Route.swift; path = Classes/Route.swift; sourceTree = "<group>"; tabWidth = 2; };
 		8A021EEC1B635DDB008DD1C5 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Router.swift; path = Classes/Router.swift; sourceTree = "<group>"; };
-		8A021EED1B635DDB008DD1C5 /* AppRouting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppRouting.swift; path = Classes/AppRouting.swift; sourceTree = "<group>"; };
 		8A021EF21B635DE8008DD1C5 /* RouteTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteTests.swift; sourceTree = "<group>"; };
+		8A3F61C31CA5FB7C00C80773 /* RouterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterTests.swift; sourceTree = "<group>"; };
+		8A3F61C61CA5FE5900C80773 /* MockRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockRoute.swift; sourceTree = "<group>"; };
+		8A3F61C81CA5FE7F00C80773 /* MockAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +69,9 @@
 				8A021EDD1B635DA3008DD1C5 /* AppRoutingTests */,
 				8A021ED01B635DA3008DD1C5 /* Products */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		8A021ED01B635DA3008DD1C5 /* Products */ = {
 			isa = PBXGroup;
@@ -80,7 +86,6 @@
 			isa = PBXGroup;
 			children = (
 				8A021ED21B635DA3008DD1C5 /* AppRouting.h */,
-				8A021EED1B635DDB008DD1C5 /* AppRouting.swift */,
 				8A021EEC1B635DDB008DD1C5 /* Router.swift */,
 				8A021EEB1B635DDB008DD1C5 /* Route.swift */,
 				8A021EEA1B635DDB008DD1C5 /* Action.swift */,
@@ -92,10 +97,21 @@
 		8A021EDD1B635DA3008DD1C5 /* AppRoutingTests */ = {
 			isa = PBXGroup;
 			children = (
+				8A3F61C31CA5FB7C00C80773 /* RouterTests.swift */,
 				8A021EF21B635DE8008DD1C5 /* RouteTests.swift */,
+				8A3F61C51CA5FE4800C80773 /* Mocks */,
 				8A021EE01B635DA3008DD1C5 /* Info.plist */,
 			);
 			path = AppRoutingTests;
+			sourceTree = "<group>";
+		};
+		8A3F61C51CA5FE4800C80773 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				8A3F61C81CA5FE7F00C80773 /* MockAction.swift */,
+				8A3F61C61CA5FE5900C80773 /* MockRoute.swift */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,7 +225,6 @@
 				8A021EEE1B635DDB008DD1C5 /* Action.swift in Sources */,
 				8A021EEF1B635DDB008DD1C5 /* Route.swift in Sources */,
 				8A021EF01B635DDB008DD1C5 /* Router.swift in Sources */,
-				8A021EF11B635DDB008DD1C5 /* AppRouting.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,7 +232,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A3F61C41CA5FB7C00C80773 /* RouterTests.swift in Sources */,
 				8A021EF31B635DE8008DD1C5 /* RouteTests.swift in Sources */,
+				8A3F61C71CA5FE5900C80773 /* MockRoute.swift in Sources */,
+				8A3F61C91CA5FE7F00C80773 /* MockAction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

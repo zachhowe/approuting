@@ -6,17 +6,17 @@
 //
 
 public protocol ActionProtocol {
-  func perform(parameters: RouteParameters)
+  func perform(parameters: [RouteParameter])
 }
 
-public class Action: ActionProtocol {
-  private let action: (RouteParameters) -> Void
+class Action: ActionProtocol {
+  let action: ([RouteParameter]) -> Void
   
-  public init(action: (RouteParameters) -> Void) {
+  init(action: ([RouteParameter]) -> Void) {
     self.action = action
   }
   
-  public func perform(parameters: RouteParameters) {
-    self.action(parameters)
+  func perform(parameters: [RouteParameter]) {
+    action(parameters)
   }
 }

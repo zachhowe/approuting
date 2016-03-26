@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class Router {
+public final class Router {
   private struct RouteMapping {
     let route: RouteProtocol
     let action: ActionProtocol
@@ -22,7 +22,7 @@ public class Router {
   }
   
   public func openURL(URL: NSURL) -> Bool {
-    if !validateURL(URL) { return false }
+    if !canOpenURL(URL) { return false }
     for routeMapping in routeMappings {
       let route = routeMapping.route
       let action = routeMapping.action
@@ -35,15 +35,22 @@ public class Router {
     return false
   }
   
-  private func validateURL(URL: NSURL) -> Bool {
-    return validSchemes.isEmpty || validSchemes.contains(URL.scheme)
+  public func canOpenURL(URL: NSURL) -> Bool {
+    if validSchemes.isEmpty || validSchemes.contains(URL.scheme) {
+      return true
+    }
+    return false
   }
   
-  public func matchOn(route: RouteProtocol, action: ActionProtocol) {
+  public func match(route route: RouteProtocol, action: ActionProtocol) {
     routeMappings.append(RouteMapping(route: route, action: action))
   }
   
-  public func matchOn(pattern: String, action: (RouteParameters) -> Void) throws {
-    matchOn(try Route(pattern: pattern), action: Action(action: action))
+  public func match(pattern pattern: String, action: ([RouteParameter]) -> Void) throws {
+    match(route: try Route(pattern: pattern), action: Action(action: action))
+  }
+
+  public func match(pattern pattern: String, action: ActionProtocol) throws {
+    match(route: try Route(pattern: pattern), action: action)
   }
 }
