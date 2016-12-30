@@ -33,7 +33,7 @@ class MockAction {
 }
 
 extension MockAction: ActionProtocol {
-  func perform(parameters: RouteParameters) {
+  func perform(_ parameters: RouteParameters) {
     didCallPerform = true
     performCallSentParameters = parameters
   }

@@ -26,56 +26,56 @@
 
 import Foundation
 
-public enum RouteError: ErrorType {
-  case PatternParseError(String)
-  case RegularExpressionError(ErrorType)
+public enum RouteError: Error {
+  case patternParseError(String)
+  case regularExpressionError(Error)
 }
 
 public protocol RouteProtocol {
-  func matchesOnURL(URL: NSURL) -> Bool
-  func parametersForURL(URL: NSURL) -> RouteParameters
+  func matches(url: URL) -> Bool
+  func parameters(url: URL) -> RouteParameters
 }
 
 public final class Route: RouteProtocol {
   public let pattern: String
-  private(set) public var regex = NSRegularExpression()
-  private(set) public var paramKeys = [String]()
+  var regex = NSRegularExpression()
+  var paramKeys = [String]()
   
   public init(pattern: String) throws {
     self.pattern = pattern
-    (self.regex, self.paramKeys) = try regularExpressionFromURLPattern(pattern)
+    (regex, paramKeys) = try regularExpressionFromURLPattern(pattern)
   }
   
-  public func matchesOnURL(URL: NSURL) -> Bool {
-    guard let path = URL.path else { return false }
-    let range = NSRange(location: 0, length: path.characters.count)
-    return regex.numberOfMatchesInString(path, options: NSMatchingOptions(rawValue: 0), range: range) == 1
+  public func matches(url: URL) -> Bool {
+    let range = NSRange(location: 0, length: url.path.characters.count)
+    return regex.numberOfMatches(in: url.path,
+                                 options: NSRegularExpression.MatchingOptions(rawValue: 0),
+                                 range: range) == 1
   }
   
-  public func parametersForURL(URL: NSURL) -> RouteParameters {
-    guard let path = URL.path else { return [] }
+  public func parameters(url: URL) -> RouteParameters {
     var matchedValues = RouteParameters()
     
-    regex.enumerateMatchesInString(path,
-      options: NSMatchingOptions(rawValue: 0),
+    let path = url.path
+    
+    regex.enumerateMatches(in: path,
+      options: NSRegularExpression.MatchingOptions(rawValue: 0),
       range: NSRange(location: 0, length: path.characters.count),
-      usingBlock: { (match, flags, stop) -> Void in
+      using: { (match, flags, stop) -> Void in
         
         if let match = match {
-          if match.range.location != NSNotFound {
-            var i = 0
-            for ri in 1..<match.numberOfRanges {
-              let key = self.paramKeys[i]
-              i += 1
+          if match.numberOfRanges >= 2 {
+            var paramKeyIndex = 0
+            for rangeIndex in 1 ..< match.numberOfRanges {
+              let key = self.paramKeys[paramKeyIndex]
+              paramKeyIndex += 1
               
-              let range = { (str: String, rng: NSRange) -> Range<String.Index> in
-                let start = str.startIndex.advancedBy(rng.location)
-                let end = start.advancedBy(rng.length)
-                return start..<end
-              }(path, match.rangeAtIndex(ri))
+              let rng = match.rangeAt(rangeIndex)
               
-              let strVal = path.substringWithRange(range)
-              matchedValues.append(RouteParameter(name: key, value: strVal))
+              let lower = path.index(path.startIndex, offsetBy: rng.location)
+              let upper = path.index(lower, offsetBy: rng.length)
+              
+              matchedValues.append(RouteParameter(name: key, value: path[lower ..< upper]))
             }
           }
         }
@@ -89,33 +89,33 @@ private let RouteDelimiterStart = ":"
 private let RouteDelimiterEnd = ":"
 private let RouteRegularExpressionCaptureGroupPattern = "([^/]*)"
 
-private func regularExpressionFromURLPattern(pattern: String) throws -> (NSRegularExpression, [String]) {
-  let patternScanner = NSScanner(string: pattern)
+private func regularExpressionFromURLPattern(_ pattern: String) throws -> (NSRegularExpression, [String]) {
+  let patternScanner = Scanner(string: pattern)
   patternScanner.charactersToBeSkipped = nil
   
   var regexPattern = ""
   var regexGroupKeyNames: [String] = []
   
   var scannedString: NSString?
-  while (!patternScanner.atEnd) {
-    if patternScanner.scanUpToString(RouteDelimiterStart, intoString: &scannedString),
+  while (!patternScanner.isAtEnd) {
+    if patternScanner.scanUpTo(RouteDelimiterStart, into: &scannedString),
       let scannedString = scannedString as? String {
         regexPattern += scannedString
     }
     
-    if patternScanner.scanString(RouteDelimiterStart, intoString: nil) {
-      if patternScanner.scanUpToString(RouteDelimiterEnd, intoString: &scannedString),
+    if patternScanner.scanString(RouteDelimiterStart, into: nil) {
+      if patternScanner.scanUpTo(RouteDelimiterEnd, into: &scannedString),
         let scannedString = scannedString as? String {
           regexGroupKeyNames.append(scannedString)
           regexPattern += RouteRegularExpressionCaptureGroupPattern
-          patternScanner.scanString(RouteDelimiterEnd, intoString: nil)
+          patternScanner.scanString(RouteDelimiterEnd, into: nil)
       } else {
-        throw RouteError.PatternParseError("Did not find RouteDelimiterEnd (\"\(RouteDelimiterEnd)\") after RouteDelimiterStart (\"\(RouteDelimiterStart)\")")
+        throw RouteError.patternParseError("Did not find RouteDelimiterEnd (\"\(RouteDelimiterEnd)\") after RouteDelimiterStart (\"\(RouteDelimiterStart)\")")
       }
     }
   }
   regexPattern += "/?$" // ignore trailing slash
   
-  let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpressionOptions(rawValue: 0))
+  let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options(rawValue: 0))
   return (regex, regexGroupKeyNames)
 }

@@ -30,32 +30,32 @@ import XCTest
 class RouteTests: XCTestCase {
 
   func test_routeWithValidRoutePattern() {
-    let url1 = NSURL(string: "x-app:///burrito/1234")!
-    let url2 = NSURL(string: "x-app:///burrito/1234/cheese/cheddar/addToCart")!
+    let url1 = URL(string: "x-app:///burrito/1234")!
+    let url2 = URL(string: "x-app:///burrito/1234/cheese/cheddar/addToCart")!
     
     let route1 = try? Route(pattern: "/burrito/:burrito_id:")
     XCTAssertNotNil(route1)
     
     XCTAssertEqual(route1!.paramKeys, ["burrito_id"])
     XCTAssertEqual(route1!.regex.pattern, "/burrito/([^/]*)/?$")
-    XCTAssertTrue(route1!.matchesOnURL(url1))
-    XCTAssertFalse(route1!.matchesOnURL(url2))
-    XCTAssertEqual(route1!.parametersForURL(url1), [RouteParameter(name: "burrito_id", value: "1234")])
-    XCTAssertTrue(route1!.parametersForURL(url2).isEmpty)
+    XCTAssertTrue(route1!.matches(url: url1))
+    XCTAssertFalse(route1!.matches(url: url2))
+    XCTAssertEqual(route1!.parameters(url: url1), [RouteParameter(name: "burrito_id", value: "1234")])
+    XCTAssertTrue(route1!.parameters(url: url2).isEmpty)
   }
   
   func test_routeWithValidRoutePattern_emptyUrlPath() {
-    let url1 = NSURL(string: "x-app:")!
-    let url2 = NSURL(string: "x-app:///hello")!
+    let url1 = URL(string: "x-app:")!
+    let url2 = URL(string: "x-app:///hello")!
     
     let route1 = try? Route(pattern: "/hello")
     XCTAssertNotNil(route1)
     
-    XCTAssertFalse(route1!.matchesOnURL(url1))
-    XCTAssertTrue(route1!.parametersForURL(url1).isEmpty)
+    XCTAssertFalse(route1!.matches(url: url1))
+    XCTAssertTrue(route1!.parameters(url: url1).isEmpty)
     
-    XCTAssertTrue(route1!.matchesOnURL(url2))
-    XCTAssertTrue(route1!.parametersForURL(url2).isEmpty)
+    XCTAssertTrue(route1!.matches(url: url2))
+    XCTAssertTrue(route1!.parameters(url: url2).isEmpty)
   }
   
   func test_routeWithInvalidRoutePattern() {

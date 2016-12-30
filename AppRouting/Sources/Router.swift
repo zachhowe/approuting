@@ -40,36 +40,37 @@ public final class Router {
     validHosts = hosts
   }
   
-  public func openURL(URL: NSURL) -> Bool {
-    if !canOpenURL(URL) { return false }
+  @discardableResult
+  public func openURL(_ url: URL) -> Bool {
+    if !canOpenURL(url) { return false }
     for routeMapping in routeMappings {
       let route = routeMapping.route
       let action = routeMapping.action
       
-      if route.matchesOnURL(URL) {
-        action.perform(route.parametersForURL(URL))
+      if route.matches(url: url) {
+        action.perform(route.parameters(url: url))
         return true
       }
     }
     return false
   }
   
-  public func canOpenURL(URL: NSURL) -> Bool {
-    if validSchemes.isEmpty || validSchemes.contains(URL.scheme) {
+  public func canOpenURL(_ url: URL) -> Bool {
+    if validSchemes.isEmpty || validSchemes.contains(url.scheme!) {
       return true
     }
     return false
   }
   
-  public func match(route route: RouteProtocol, action: ActionProtocol) {
+  public func match(route: RouteProtocol, action: ActionProtocol) {
     routeMappings.append(RouteMapping(route: route, action: action))
   }
   
-  public func match(pattern pattern: String, action: (RouteParameters) -> Void) throws {
+  public func match(pattern: String, action: @escaping (RouteParameters) -> Void) throws {
     match(route: try Route(pattern: pattern), action: Action(action: action))
   }
 
-  public func match(pattern pattern: String, action: ActionProtocol) throws {
+  public func match(pattern: String, action: ActionProtocol) throws {
     match(route: try Route(pattern: pattern), action: action)
   }
 }

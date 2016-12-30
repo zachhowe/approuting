@@ -25,17 +25,17 @@
 //
 
 public protocol ActionProtocol {
-  func perform(parameters: RouteParameters)
+  func perform(_ parameters: RouteParameters)
 }
 
 class Action: ActionProtocol {
   let action: (RouteParameters) -> Void
   
-  init(action: (RouteParameters) -> Void) {
+  init(action: @escaping (RouteParameters) -> Void) {
     self.action = action
   }
   
-  func perform(parameters: RouteParameters) {
+  func perform(_ parameters: RouteParameters) {
     action(parameters)
   }
 }

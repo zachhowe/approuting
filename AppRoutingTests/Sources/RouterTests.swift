@@ -29,15 +29,15 @@ import XCTest
 
 class RouterTests: XCTestCase {
 
-  var httpURL: NSURL!
-  var httpsURL: NSURL!
-  var customSchemeURL: NSURL!
+  var httpURL: URL!
+  var httpsURL: URL!
+  var customSchemeURL: URL!
 
   override func setUp() {
     super.setUp()
-    httpURL = NSURL(string: "http://github.com/zachhowe/approuting")
-    httpsURL = NSURL(string: "https://github.com/zachhowe/approuting")
-    customSchemeURL = NSURL(string: "approuting://github.com/zachhowe/approuting")
+    httpURL = URL(string: "http://github.com/zachhowe/approuting")
+    httpsURL = URL(string: "https://github.com/zachhowe/approuting")
+    customSchemeURL = URL(string: "approuting://github.com/zachhowe/approuting")
   }
 
   override func tearDown() {

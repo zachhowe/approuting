@@ -31,15 +31,14 @@ public struct RouteParameter {
   let value: String
 }
 
-extension RouteParameter: Equatable {}
+extension RouteParameter: Equatable {
+  static public func ==(lhs: RouteParameter, rhs: RouteParameter) -> Bool {
+    return lhs.name == rhs.name && lhs.value == rhs.value
+  }
+}
 
 public extension RouteParameter {
   var integerValue: Int? { return Int(value) }
   var doubleValue: Double? { return Double(value) }
 }
-
-public func ==(lhs: RouteParameter, rhs: RouteParameter) -> Bool {
-  return lhs.name == rhs.name && lhs.value == rhs.value
-}
-
 public typealias RouteParameters = [RouteParameter]

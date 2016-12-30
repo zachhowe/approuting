@@ -38,11 +38,11 @@ class MockRoute {
 }
 
 extension MockRoute: RouteProtocol {
-  func matchesOnURL(URL: NSURL) -> Bool {
+  public func matches(url: URL) -> Bool {
     return matchesOnURL
   }
   
-  func parametersForURL(URL: NSURL) -> RouteParameters {
+  func parameters(url: Foundation.URL) -> RouteParameters {
     return parametersForURL
   }
 }
